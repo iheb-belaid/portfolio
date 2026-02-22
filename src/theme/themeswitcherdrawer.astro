@@ -1,0 +1,125 @@
+---
+// src/components/ThemeSwitcherDrawer.astro
+
+// List of themes to display. Should match those in tailwind.config.ts
+// Your custom 'dracula' is an object in the config, but here we just need its name.
+const themes = [
+  "dracula", "light", "dark", "cupcake", "bumblebee", "emerald", "corporate", 
+  "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
+  "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black",
+  "luxury", "cmyk", "autumn", "business", "acid", "lemonade", "night",
+  "coffee", "winter", "dim", "nord", "sunset"
+];
+---
+
+<div class="drawer drawer-end z-[1000]"> {/* High z-index for the drawer */}
+  <input id="theme-drawer-checkbox" type="checkbox" class="drawer-toggle" />
+  
+  {/* Drawer Content (theme previews) */}
+  <div class="drawer-side">
+    <label for="theme-drawer-checkbox" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="p-4 w-[90vw] max-w-md min-h-full bg-base-200 text-base-content">
+      <h2 class="text-xl font-semibold mb-4">Select Theme</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 overflow-y-auto max-h-[calc(100vh-80px)]">
+        {themes.map(themeName => (
+          <button
+            class="theme-btn outline-offset-4 overflow-hidden rounded-lg border border-base-content/20 text-start"
+            data-set-theme={themeName}
+            aria-label={`Set theme to ${themeName}`}
+            title={`Set theme to ${themeName}`}
+          >
+            <div data-theme={themeName} class="bg-base-100 text-base-content w-full cursor-pointer font-sans">
+              <div class="grid grid-cols-5 grid-rows-3">
+                <div class="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
+                <div class="bg-base-300 col-start-1 row-start-3"></div>
+                <div class="bg-base-100 col-span-4 col-start-2 row-span-3 row-start-1 flex flex-col gap-1 p-2">
+                  <div class="font-bold capitalize">{themeName}</div>
+                  <div class="flex flex-wrap gap-1">
+                    <div class="bg-primary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                      <div class="text-primary-content text-sm font-bold">A</div>
+                    </div>
+                    <div class="bg-secondary flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                      <div class="text-secondary-content text-sm font-bold">A</div>
+                    </div>
+                    <div class="bg-accent flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                      <div class="text-accent-content text-sm font-bold">A</div>
+                    </div>
+                    <div class="bg-neutral flex aspect-square w-5 items-center justify-center rounded lg:w-6">
+                      <div class="text-neutral-content text-sm font-bold">A</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Script to handle theme switching and persistence
+  const THEME_STORAGE_KEY = 'theme';
+
+  function applyTheme(themeName: string) {
+    document.documentElement.setAttribute('data-theme', themeName);
+  }
+
+  function saveTheme(themeName: string) {
+    localStorage.setItem(THEME_STORAGE_KEY, themeName);
+  }
+
+  function loadAndApplySavedTheme() {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    // Fallback to 'dracula' or your preferred default if no theme is saved or if saved theme is invalid
+    // For this example, we'll ensure 'dracula' is a valid theme from your config.
+    const defaultTheme = 'dracula'; 
+    
+    // Check if savedTheme is one of the available themes, otherwise use default
+    // This requires access to the 'themes' array from Astro props or defining it here again.
+    // For simplicity, we'll assume any string in localStorage is potentially valid for now,
+    // but in a robust app, you'd validate it against your `tailwind.config.ts` list.
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      applyTheme(defaultTheme); // Apply default theme if nothing is saved
+      // Optionally save the default theme if you want it persisted on first load
+      // saveTheme(defaultTheme); 
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAndApplySavedTheme();
+
+    const themeButtons = document.querySelectorAll('.theme-btn[data-set-theme]');
+    themeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const themeName = button.getAttribute('data-set-theme');
+        if (themeName) {
+          applyTheme(themeName);
+          saveTheme(themeName);
+          // Optional: Close the drawer after selecting a theme
+          const drawerCheckbox = document.getElementById('theme-drawer-checkbox') as HTMLInputElement | null;
+          if (drawerCheckbox) {
+            drawerCheckbox.checked = false;
+          }
+        }
+      });
+    });
+  });
+
+  // Ensure theme is applied immediately on script load if possible,
+  // to prevent flash of unstyled content or wrong theme.
+  // This part of the script runs before DOMContentLoaded.
+  (() => {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      // Apply a default theme immediately if you have one specified, e.g., 'dracula'
+      // This helps if your default HTML doesn't have data-theme or has a different one.
+      // document.documentElement.setAttribute('data-theme', 'dracula');
+    }
+  })();
+</script>
