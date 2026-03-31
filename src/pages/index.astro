@@ -70,16 +70,15 @@ const experiences = [
     location: 'Lac 2, Tunis, Tunisia',
     period: 'Jul 2025 - Aug 2025',
     summary:
-      'Built and deployed a full-stack ToDo application and implemented an end-to-end CI/CD workflow to automate build, test, packaging, and delivery.',
+      'Developed a full-stack ToDo application and implemented an end-to-end CI/CD workflow from code push to deployment on Ubuntu.',
     responsibilities: [
       'Developed Spring Boot REST APIs connected to PostgreSQL and an Angular frontend.',
-      'Set up Jenkins pipelines triggered by GitHub pushes with Maven build and automated deployment.',
+      'Set up Jenkins pipelines triggered by GitHub webhooks on each push, with Maven build, tests, packaging, and deployment.',
       'Containerized backend, frontend, and database services with Docker and Docker Compose.',
-      'Automated deployment to Ubuntu VM using secure transfer and scripted service restart.',
-      'Tested manual Kubernetes deployment flow (Pods, Deployments, Services).',
-      'Configured pipeline email notifications for success and failure tracking.'
+      'Automated deployment to an Ubuntu VM using secure SCP transfer and service restart scripts.',
+      'Configured automatic pipeline email notifications for success and failure tracking.'
     ],
-    skills: ['Spring Boot', 'Angular', 'PostgreSQL', 'Jenkins', 'Docker', 'Kubernetes', 'GitHub', 'Maven']
+    skills: ['Spring Boot', 'Angular', 'PostgreSQL', 'Jenkins', 'Docker', 'Docker Compose', 'GitHub', 'Maven', 'SCP']
   },
   {
     id: 'sagemcom',
@@ -88,15 +87,14 @@ const experiences = [
     location: 'Megrine, Tunisia',
     period: 'Feb 2024 - May 2024',
     summary:
-      'Contributed to broadband integration activities and Wi-Fi testing automation in a telecom software context.',
+      'Automated Wi-Fi testing and router validation workflows while contributing to broadband integration in a telecom software environment.',
     responsibilities: [
-      'Worked on Wi-Fi test automation workflows with Broadfarm.',
-      'Participated in broadband solution configuration and integration tasks.',
-      'Collaborated with software teams on implementation of new features.',
-      'Prepared and presented weekly technical reports to the supervision team.',
-      'Supported optimization of integration processes for network solutions.'
+      'Automated Wi-Fi testing and router behavior validation using BroadFarm and Python scripts.',
+      'Helped set up a test automation chain with Docker and Jenkins for continuous integration.',
+      'Contributed to configuration and integration of broadband solutions with software teams.',
+      'Prepared and presented weekly technical reports to the supervision team.'
     ],
-    skills: ['Broadfarm', 'Network Integration', 'Testing', 'Reporting']
+    skills: ['BroadFarm', 'Python', 'Docker', 'Jenkins', 'Broadband Integration', 'Testing']
   },
   {
     id: 'tunisie-telecom',
@@ -123,6 +121,15 @@ const projects = [
     description:
       'Designed and automated a private cloud stack with OpenStack, Ansible, and Kubernetes, including monitoring and anomaly detection components.',
     technologies: ['OpenStack', 'Ansible', 'Kubernetes', 'Prometheus', 'Grafana', 'Alertmanager', 'Random Forest'],
+    status: 'Completed',
+    year: '2025'
+  },
+  {
+    id: 'alif-platform',
+    title: 'Alif.tn - Animal Protection Platform',
+    description:
+      'Team-built microservices-based web platform with modules for Lost & Found, veterinarians geolocation, pet shop, complaints, and donations.',
+    technologies: ['Microservices', 'Konnect API', 'Stripe API', 'Payment Webhooks', 'Email Automation'],
     status: 'Completed',
     year: '2025'
   },
@@ -168,9 +175,11 @@ const skills = [
   { name: 'Java', icon: Code },
   { name: 'Python', icon: Code },
   { name: '.NET', icon: Braces },
+  { name: 'ASP.NET', icon: Braces },
   { name: 'Angular', icon: Wind },
   { name: 'Spring Boot', icon: Server },
   { name: 'Symfony', icon: Bot },
+  { name: 'BroadFarm', icon: Settings },
   { name: 'HTML / CSS / PHP', icon: Wind },
   { name: 'MySQL', icon: Database },
   { name: 'PostgreSQL', icon: Database },
@@ -182,9 +191,11 @@ const skills = [
   { name: 'Prometheus', icon: BrainCircuit },
   { name: 'Grafana', icon: BrainCircuit },
   { name: 'Zabbix', icon: ShieldCheck },
-  { name: 'Linux', icon: TerminalSquare },
+  { name: 'Linux (Ubuntu, AlmaLinux, Kali Linux)', icon: TerminalSquare },
   { name: 'Windows', icon: TerminalSquare },
-  { name: 'GitHub', icon: GitMerge }
+  { name: 'GitHub', icon: GitMerge },
+  { name: 'Cisco Packet Tracer', icon: TerminalSquare },
+  { name: 'eNSP', icon: TerminalSquare }
 ];
 
 const education = [
@@ -241,7 +252,7 @@ const certificates = [
   }
 ];
 
-const languageCertifications = ['TCF (2023) - Level C1', 'TOEIC (2024) - 810 points'];
+const languageCertifications = ['TCF (2024) - Level B2', 'TOEIC (2024) - 810 points'];
 ---
 
 <MainLayout>
@@ -474,7 +485,7 @@ const languageCertifications = ['TCF (2023) - Level C1', 'TOEIC (2024) - 810 poi
 
       <div class="p-1">
         <h2 class="section-heading">Languages</h2>
-        <p class="text-sm text-base-content/80 mb-2">Arabic (Native), French (C1), English (B2)</p>
+        <p class="text-sm text-base-content/80 mb-2">Arabic (Native), French (B2), English (B2)</p>
         <ul class="list-disc pl-5 text-sm text-base-content/75 space-y-1 marker:text-primary/70">
           {languageCertifications.map(cert => <li>{cert}</li>)}
         </ul>
